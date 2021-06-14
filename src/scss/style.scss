@@ -1,0 +1,24 @@
+@import 'base/*.scss';
+@import 'global/*.scss';
+@import '**/_*.scss';
+@import '../components/**/*.scss';
+
+
+
+.main {
+    @include container;
+}
+
+.test {
+    width: 100px;
+    height: 100px;
+    background: #456;
+    @include push--auto;
+    // @include indent(80px, 80px, 0, 0);
+    // @include indent("margin", "top", "60");
+
+    @include mq('tablet-wide', 'max') {
+        padding-top: 4rem;
+        font-size: 2.4rem;
+    }
+}

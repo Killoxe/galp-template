@@ -1,0 +1,151 @@
+@mixin font-face($name, $file, $weight: 400, $style: normal) {
+	@font-face {
+		font-family: "#{$name}";
+		src: local("#{$file}"),
+		url('../fonts/#{$file}.woff2') format('woff2'),
+		url('../fonts/#{$file}.woff') format('woff');
+		font-weight: $weight;
+		font-style: $style;
+		font-display: swap;
+	}
+}
+
+@mixin bg ($size:"contain", $position: "center") {
+	background-size: #{$size};
+	background-position: #{$position};
+	background-repeat: no-repeat;
+}
+
+@mixin btn_anim($scaleMax:1.05, $scaleMin:0.95) {
+	transform-origin: center center;
+	transition: all ease-out 240ms;
+
+	&:hover {
+		transform: scale(#{$scaleMax});
+	}
+
+	&:focus {
+		outline: transparent;
+	}
+
+	&:focus-visible {
+		transform: scale(#{$scaleMax}) translateY(-5%);
+	}
+
+	&:active {
+		transform: scale(#{$scaleMin});
+	}
+}
+
+@mixin no-btn ($display:"inline-block") {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	background-color: transparent;
+	border-radius: 0;
+	cursor: pointer;
+	appearance: none;
+	display: #{$display};
+}
+
+@mixin transit ($tr:0.2) {
+	transition: all #{$tr}s;
+}
+
+@mixin container($max-width:"1300px", $padding:"50px") {
+	width: 100%;
+	max-width: #{$max-width};
+	padding: 0 #{$padding};
+	margin: 0 auto;
+}
+
+@mixin push--auto {
+	margin: {
+		left: auto;
+		right: auto;
+	}
+}
+
+@mixin pseudo($display: block, $pos: absolute, $content: ''){
+	content: $content;
+	display: $display;
+	position: $pos;
+}
+
+@mixin input-placeholder {
+	&.placeholder { @content; }
+	&:-moz-placeholder { @content; }
+	&::-moz-placeholder { @content; }
+	&:-ms-input-placeholder { @content; }
+	&::-webkit-input-placeholder { @content; }
+}
+
+$breakpoints: (
+	"phone":        400px,
+	"phone-wide":   480px,
+	"phablet":      560px,
+	"tablet-small": 640px,
+	"tablet":       768px,
+	"tablet-wide":  1024px,
+	"desktop":      1248px,
+	"desktop-wide": 1440px
+);
+@mixin mq($width, $type: max) {
+	@if map_has_key($breakpoints, $width) {
+		$width: map_get($breakpoints, $width);
+		@if $type == min {
+			$width: $width - 1px;
+		}
+		@media only screen and (#{$type}-width: $width) {
+			@content;
+		}
+	}
+}
+
+// size to one line
+@mixin size($width, $height: $width) {
+	width: $width;
+	height: $height;
+  }
+
+// отступы
+@mixin indent1($mb, $mt, $pb, $pt) {
+	margin-bottom: $mb;
+	margin-top: $mt;
+	padding-bottom: $pb;
+	padding-top: $pt;
+}
+
+@mixin indent2($type, $side, $value) {
+	#{$type}-#{$side}: #{$value};
+};
+
+$value: (
+	"60": 60px,
+	"40": 40px,
+	"30": 30px,
+	"20": 20px,
+	"16": 16px,
+	"12": 12px
+);
+$side: (
+	"top": top,
+	"bottom": bottom
+);
+$type: (
+	"margin": margin,
+	"padding": padding
+);
+@mixin indent($type-indent, $side-indent, $value-indent) {
+	@if map_has_key($type, $type-indent) {
+		$type-indent: map_get($type, $type-indent);
+	};
+	@if map_has_key($side, $side-indent) {
+		$side-indent: map_get($side, $side-indent);
+	};
+	@if map_has_key($value, $value-indent) {
+		$value-indent: map_get($value, $value-indent);
+	};
+
+	#{$type-indent}-#{$side-indent}: $value-indent;
+};
